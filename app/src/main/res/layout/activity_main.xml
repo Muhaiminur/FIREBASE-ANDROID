@@ -20,6 +20,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="FIREBASE IMAGE" />
+            <Button
+                android:id="@+id/firbaseui_Image_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FIREBASEUI RECYCLERVIEW" />
+            <Button
+                android:id="@+id/firbase_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FIREBASE NORMAL RECYCLEVIEW" />
         </LinearLayout>
     </ScrollView>
 

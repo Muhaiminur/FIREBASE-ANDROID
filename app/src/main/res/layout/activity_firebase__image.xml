@@ -30,6 +30,16 @@
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:src="@mipmap/ic_launcher" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Database Second"
+                android:textColor="@android:color/holo_blue_dark"/>
+            <TextView
+                android:id="@+id/firebase_databse2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="DATABASE SECOND"/>
         </LinearLayout>
     </ScrollView>
 

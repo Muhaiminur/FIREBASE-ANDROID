@@ -29,6 +29,7 @@ public class Firebase_Image extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference myRef;
+    DatabaseReference image_list;
     @BindView(R.id.firebase_image)
     ImageView firebaseImage;
     @BindView(R.id.firebase_database)
@@ -36,8 +37,11 @@ public class Firebase_Image extends AppCompatActivity {
     @BindView(R.id.firebase_firestore)
     TextView firebaseFirestore;
 
-    String Firestore="";
-    String Database="";
+    String Firestore = "";
+    String Database = "";
+    @BindView(R.id.firebase_databse2)
+    TextView firebaseDatabse2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +57,7 @@ public class Firebase_Image extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("FIREBASE IMAGE", document.getId() + " => " + document.getData());
                                 Log.d("second", "second");
-                                Firestore=Firestore+document.getData().toString();
+                                Firestore = Firestore + document.getData().toString();
                             }
                             firebaseFirestore.setText(Firestore);
                         } else {
@@ -71,12 +75,16 @@ public class Firebase_Image extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String value = ds.getValue(String.class);
-                    Log.d("FIREBASE IMAGE 2", "Value is: " + value);
-                    Glide.with(Firebase_Image.this)
-                            .load(value)
-                            .into(firebaseImage);
-                    Database=Database+"\n"+value;
+                    try {
+                        String value = ds.getValue(String.class);
+                        Log.d("FIREBASE IMAGE 2", "Value is: " + value);
+                        Glide.with(Firebase_Image.this)
+                                .load(value)
+                                .into(firebaseImage);
+                        Database = Database + "\n" + value;
+                    } catch (Exception e) {
+                        Log.d("Error Line Number", Log.getStackTraceString(e));
+                    }
                 }
                 firebaseDatabase.setText(Database);
                 //String value =(String) dataSnapshot.getValue();
@@ -87,6 +95,33 @@ public class Firebase_Image extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Log.w("FIREBASE IMAGE 2", "Failed to read value.", error.toException());
+            }
+        });
+
+
+        image_list=database.getReference().child("image_list");
+        image_list.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String database="";
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    try {
+                        String value = ds.getValue(String.class);
+                        database=database+"\n"+value;
+                        Log.d("IMAGE_DATABASE 2", "Value is: " + value);
+                        firebaseDatabse2.setText(database);
+                    } catch (Exception e) {
+                        Log.d("Error Line Number", Log.getStackTraceString(e));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("IMAGE_DATABASE 2", "Failed to read value.", error.toException());
             }
         });
     }
