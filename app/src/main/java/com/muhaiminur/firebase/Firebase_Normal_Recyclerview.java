@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
@@ -36,7 +37,9 @@ public class Firebase_Normal_Recyclerview extends AppCompatActivity {
         //initImageBitmaps();
         database = FirebaseDatabase.getInstance();
         //Database_Setup();
+        Firebase_initRecyclerView();
         Database_Retriev();
+
     }
     private void initImageBitmaps(){
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
@@ -135,5 +138,7 @@ public class Firebase_Normal_Recyclerview extends AppCompatActivity {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_COLUMNS, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(staggeredRecyclerViewAdapter);
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        //recyclerView.setItemAnimator(null);
     }
 }
