@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
@@ -37,15 +39,25 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called.");
+        Log.d(TAG, "Adapter"+mImageUrls.get(position).trim());
 
-        RequestOptions requestOptions = new RequestOptions()
+        RequestOptions options = new RequestOptions();
+        options.skipMemoryCache(true);
+        options.diskCacheStrategy(DiskCacheStrategy.NONE);
+
+        Glide.with(mContext)
+                .load(mImageUrls.get(position).trim())
+                .apply(options)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(holder.image);
+
+        /*RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.drawable.ic_launcher_background);
 
         Glide.with(mContext)
                 .load(mImageUrls.get(position))
                 .apply(requestOptions)
-                .into(holder.image);
+                .into(holder.image);*/
 
         holder.name.setText(mNames.get(position));
 

@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,12 +47,26 @@ public class Firebase_Image_adapter extends RecyclerView.Adapter<Firebase_Image_
         Log.d(TAG, "onBindViewHolder: called.");
 
         RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background);
+                .placeholder(R.drawable.image_load)
+                /*.placeholder(R.drawable.ic_launcher_background)*/;
 
         Glide.with(mContext)
                 .load(image.get(position).getImage_url())
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(requestOptions)
                 .into(holder.image);
+
+        Log.d(TAG, "Adapter"+image.get(position).getImage_url().trim());
+
+        /*RequestOptions options = new RequestOptions();
+        options.skipMemoryCache(true);
+        options.diskCacheStrategy(DiskCacheStrategy.NONE);
+
+        Glide.with(mContext)
+                .load(image.get(position).getImage_url().trim())
+                .apply(options)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(holder.image);*/
 
         holder.name.setText(image.get(position).getImage_description());
 
